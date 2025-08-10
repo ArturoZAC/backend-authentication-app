@@ -5,5 +5,8 @@ export * from './repositories/user.repository';
 export * from './errors/custom.error';
 
 //use-cases USERS
-export * from './use-cases/users/getUsers';
+export * from './use-cases/users/getAllUsers';
 export * from './use-cases/users/createUser';
+export * from './use-cases/users/getOneUsers';
+export * from './use-cases/users/deleteOneUser';
+export { UpdateUser } from './use-cases/users/updateUser';

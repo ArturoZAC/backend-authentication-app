@@ -1,6 +1,5 @@
 import * as z from "zod";
 
-
 export class UpdateUserDto {
 
   public constructor(
@@ -9,7 +8,7 @@ export class UpdateUserDto {
   ){}
 
   public static schema = z.object({
-    id: z.string('ID is required'),
+    id: z.uuid('Invalid uuid'),
     password: z.string('Password is required').min(5, 'Password must be at least 5 characters')
   })
 

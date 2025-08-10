@@ -29,11 +29,26 @@ export class UserDatasourceImpl implements UserDatasource {
     return UserEntity.fromObject(user);
   }
 
-  updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    throw new Error("Method not implemented.");
+  public async updateById(updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    await this.findById(updateUserDto.id);
+
+    const { id:updatedId , ...rest} = updateUserDto;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: updatedId},
+      data: rest
+    })
+
+    return UserEntity.fromObject(updatedUser);
   }
-  deleteById(id: string): Promise<UserEntity> {
-    throw new Error("Method not implemented.");
+
+  public async deleteById(id: string): Promise<UserEntity> {
+    await this.findById(id);
+
+    const userDeleted = await prisma.user.delete({ where: { id }})
+    console.log({userDeleted});
+
+    return UserEntity.fromObject(userDeleted);
   }
 
 }

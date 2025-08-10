@@ -19,7 +19,7 @@ export class UserRepositoryImpl implements UserRepository{
     return this.datasource.updateById( updateUserDto );
   }
   public deleteById(id: string): Promise<UserEntity> {
-    return this.deleteById( id );
+    return this.datasource.deleteById( id );
   }
 
 }

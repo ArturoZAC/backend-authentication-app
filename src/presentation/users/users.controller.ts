@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateUserDto, UpdateUserDto } from "../../domain/dtos";
-import { CreateUser, CustomError, GetUsers, UserRepository } from "../../domain";
+import { CreateUser, CustomError, DeleteOneUser, GetAllUsers, GetOneUser, UpdateUser, UserRepository } from "../../domain";
 
 export class UsersController {
 
@@ -17,7 +17,7 @@ export class UsersController {
   }
 
   public getAllUsers = ( req: Request, res: Response ) => {
-    new GetUsers( this.userRepository )
+    new GetAllUsers( this.userRepository )
       .execute()
       .then( users => res.status(200).json(users))
       .catch( error => this.handleError(error, res))
@@ -33,14 +33,31 @@ export class UsersController {
       .catch( error => this.handleError(error, res));
   }
 
-  public updateUser = (req: Request, res: Response ) => {
+  public getOneUser = ( req: Request, res: Response ) => {
+    const { idUser } = req.params;
+    new GetOneUser( this.userRepository)
+      .execute(idUser!)
+      .then( user => res.status(200).json(user))
+      .catch( error => this.handleError(error, res))
+  }
 
-    const idUser = req.params.idUser;
+  public deleteOneUser = ( req: Request, res: Response ) => {
+    const { idUser } = req.params;
+    new DeleteOneUser(this.userRepository)
+      .execute(idUser!)
+      .then( user => res.status(200).json(user))
+      .catch( error => this.handleError(error,res));
+  }
+
+  public updateUser = (req: Request, res: Response ) => {
+    const { idUser } = req.params;
     const [ error, updatedUserDto ] = UpdateUserDto.updated({ ...req.body, idUser });
     if( error ) return res.status(400).json({ error });
 
-    console.log(updatedUserDto);
-    res.status(200).json(updatedUserDto);
+    new UpdateUser( this.userRepository )
+      .execute(updatedUserDto!)
+      .then( user => res.status(200).json(user))
+      .catch( error => this.handleError(error, res))
   }
 
 

@@ -1,10 +1,10 @@
-import { UserEntity, UserRepository } from "../../../domain";
+import { UserEntity, UserRepository } from "../..";
 
-export interface GetUsersUseCase {
+export interface GetAllUsersUseCase {
   execute(): Promise<UserEntity[]>
 }
 
-export class GetUsers implements GetUsersUseCase {
+export class GetAllUsers implements GetAllUsersUseCase {
   
   public constructor(
     private readonly repository: UserRepository,
