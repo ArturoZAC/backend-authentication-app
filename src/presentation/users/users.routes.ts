@@ -12,7 +12,8 @@ export class UsersRoutes {
 
     const router = Router();
     router.get('/', usersController.getAllUsers );
-    router.post('/', usersController.createUser );
+    router.post('/', usersController.createUser ); // register
+    /* router.post('/login', usersController.loginUser );  */// login
     router.get('/:id', usersController.getOneUser);
     router.delete('/:id', usersController.deleteOneUser);
     router.put('/:id', usersController.updateUser );

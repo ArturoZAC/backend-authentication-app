@@ -33,6 +33,18 @@ export class UsersController {
       .catch( error => this.handleError(error, res));
   }
 
+  // public loginUser = (req: Request, res: Response ) => {
+  //   const { email, password } = req.body;
+  //   if (!email || !password) {
+  //     return res.status(400).json({ error: 'Email and password are required' });
+  //   }
+
+  //   new CreateUser( this.userRepository )
+  //     .login(email, password)
+  //     .then( user => res.status(200).json(user))
+  //     .catch( error => this.handleError(error, res));
+  // }
+
   public getOneUser = ( req: Request, res: Response ) => {
     const { id } = req.params;
     new GetOneUser( this.userRepository)
