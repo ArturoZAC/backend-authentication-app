@@ -13,9 +13,9 @@ export class UsersRoutes {
     const router = Router();
     router.get('/', usersController.getAllUsers );
     router.post('/', usersController.createUser );
-    router.get('/:idUser', usersController.getOneUser);
-    router.delete('/:idUser', usersController.deleteOneUser);
-    router.put('/:idUser', usersController.updateUser );
+    router.get('/:id', usersController.getOneUser);
+    router.delete('/:id', usersController.deleteOneUser);
+    router.put('/:id', usersController.updateUser );
     return router;
   }
 

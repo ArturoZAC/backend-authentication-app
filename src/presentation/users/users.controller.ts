@@ -34,24 +34,24 @@ export class UsersController {
   }
 
   public getOneUser = ( req: Request, res: Response ) => {
-    const { idUser } = req.params;
+    const { id } = req.params;
     new GetOneUser( this.userRepository)
-      .execute(idUser!)
+      .execute(id!)
       .then( user => res.status(200).json(user))
       .catch( error => this.handleError(error, res))
   }
 
   public deleteOneUser = ( req: Request, res: Response ) => {
-    const { idUser } = req.params;
+    const { id } = req.params;
     new DeleteOneUser(this.userRepository)
-      .execute(idUser!)
+      .execute(id!)
       .then( user => res.status(200).json(user))
       .catch( error => this.handleError(error,res));
   }
 
   public updateUser = (req: Request, res: Response ) => {
-    const { idUser } = req.params;
-    const [ error, updatedUserDto ] = UpdateUserDto.updated({ ...req.body, idUser });
+    const { id } = req.params;
+    const [ error, updatedUserDto ] = UpdateUserDto.updated({ ...req.body, id });
     if( error ) return res.status(400).json({ error });
 
     new UpdateUser( this.userRepository )
