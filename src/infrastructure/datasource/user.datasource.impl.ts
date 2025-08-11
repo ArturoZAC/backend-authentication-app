@@ -1,18 +1,33 @@
+import { BcryptAdapter } from "../../config/adapters";
 import { prisma } from "../../data/postgres.data";
-import { CreateUserDto, CustomError, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
+import { CreateUserDto, CustomError, LoginUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
 
 export class UserDatasourceImpl implements UserDatasource {
+
+  public async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const hasAccount = await prisma.user.findUnique({ where: { email: loginUserDto.email }});
+    if ( !hasAccount ) throw CustomError.notFound('User not exist');
+
+    const isMatch = BcryptAdapter.compare( loginUserDto.password, hasAccount.password);
+    if ( isMatch ){
+      return UserEntity.fromObject( hasAccount );
+    }
+
+    throw CustomError.badRequest('Password incorrect');
+  }
   
   public async create(createUserDto: CreateUserDto): Promise<UserEntity> {
 
     const existUser = await prisma.user.findUnique({ where: { email: createUserDto.email }})
     if( existUser ) throw CustomError.badRequest('Email already exist');
 
-    const user = await prisma.user.create({ data: createUserDto })
+    const user = await prisma.user.create({ data: {
+      ...createUserDto,
+      password: BcryptAdapter.hash( createUserDto.password )
+    } })
     if (!user) throw CustomError.internalServer("User could not be created");
 
     return UserEntity.fromObject(user);
-    
   }
 
   public async getAll(): Promise<UserEntity[]> {
