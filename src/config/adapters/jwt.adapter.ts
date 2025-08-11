@@ -3,7 +3,7 @@ import { envs } from "../envs"
 
 export class JwtAdapter {
 
-  public static generateJWT = ( payload: any, duration: string = '1d') => {
+  public static signJWT = ( payload: any, duration: string = '1d') => {
     return new Promise((resolve, reject) => {
       jwt.sign( payload, envs.JWT_SEED, { expiresIn: duration } as SignOptions, (error, encoded) => {
         if ( error ) return reject(null)
@@ -12,7 +12,7 @@ export class JwtAdapter {
     })
   }
 
-  public static validateJWT = <T>( token: string ): Promise< T | null> => {
+  public static verifyJWT = <T>( token: string ): Promise< T | null> => {
 
     return new Promise( ( resolve, reject ) => {
       jwt.verify( token, envs.JWT_SEED , ( error, decoded ) => {
