@@ -10,3 +10,4 @@ export * from './use-cases/users/createUser';
 export * from './use-cases/users/getOneUsers';
 export * from './use-cases/users/deleteOneUser';
 export { UpdateUser } from './use-cases/users/updateUser';
+export * from './use-cases/auth/loginUser';

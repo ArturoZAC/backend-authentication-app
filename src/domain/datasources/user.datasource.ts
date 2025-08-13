@@ -4,10 +4,10 @@ import { UserEntity } from "../entities/user.entity";
 export abstract class UserDatasource {
 
   abstract create( createUserDto: CreateUserDto ): Promise<UserEntity>;
-  abstract login( loginUserDto: LoginUserDto): Promise<UserEntity>;
   abstract getAll(): Promise<UserEntity[]>;
   abstract findById( id: string ): Promise<UserEntity>;
   abstract updateById( updateUserDto: UpdateUserDto ): Promise<UserEntity>;
   abstract deleteById( id: string ): Promise<UserEntity>;
-
+  abstract login( loginUserDto: LoginUserDto): Promise<UserEntity>;
+  
 }

@@ -12,8 +12,9 @@ export class UsersRoutes {
 
     const router = Router();
     router.get('/', usersController.getAllUsers );
-    router.post('/register', usersController.createUser ); // register
+    /* router.post('/register', usersController.createUser ); */ // register
     /* router.post('/login', usersController.loginUser ); */ // login
+    router.post('/', usersController.createUser);
     router.get('/:id', usersController.getOneUser);
     router.delete('/:id', usersController.deleteOneUser);
     router.put('/:id', usersController.updateUser );

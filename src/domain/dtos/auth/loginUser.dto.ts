@@ -14,7 +14,7 @@ export class LoginUserDto {
     password: z.string('Password is required').min(5, 'Password must be at least 5 characters'),
   });
 
-  public static logged = ( object: z.infer< typeof this.schema> ) => {
+  public static login = ( object: z.infer< typeof this.schema> ) => {
     const result = this.schema.safeParse(object);
 
     if( !result.success ){

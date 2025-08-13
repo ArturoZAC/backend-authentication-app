@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CreateUserDto, UpdateUserDto } from "../../domain/dtos";
-import { CreateUser, CustomError, DeleteOneUser, GetAllUsers, GetOneUser, UpdateUser, UserRepository } from "../../domain";
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from "../../domain/dtos";
+import { CreateUser, CustomError, DeleteOneUser, GetAllUsers, GetOneUser, LoginUser, UpdateUser, UserRepository } from "../../domain";
 
 export class UsersController {
 
@@ -34,14 +34,12 @@ export class UsersController {
   }
 
   // public loginUser = (req: Request, res: Response ) => {
-  //   const { email, password } = req.body;
-  //   if (!email || !password) {
-  //     return res.status(400).json({ error: 'Email and password are required' });
-  //   }
+  //   const [ error, loginUserDto ] = LoginUserDto.logged(req.body);
+  //   if( error ) return res.status(400).json({error});
 
-  //   new CreateUser( this.userRepository )
-  //     .login(email, password)
-  //     .then( user => res.status(200).json(user))
+  //   new LoginUser( this.userRepository )
+  //     .execute(loginUserDto!)
+  //     .then( userLogged => res.status(200).json(userLogged))
   //     .catch( error => this.handleError(error, res));
   // }
 
