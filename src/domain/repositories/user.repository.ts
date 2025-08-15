@@ -1,4 +1,4 @@
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from "../dtos";
+import { CreateUserDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "../dtos";
 import { UserEntity } from "../entities/user.entity";
 
 export abstract class UserRepository {
@@ -8,6 +8,8 @@ export abstract class UserRepository {
   abstract findById( id: string ): Promise<UserEntity>;
   abstract updateById( updateUserDto: UpdateUserDto ): Promise<UserEntity>;
   abstract deleteById( id: string ): Promise<UserEntity>;
-  abstract login( loginUserDto: LoginUserDto): Promise<UserEntity>;
 
+  //auth
+  abstract login( loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}>;
+  abstract register( registerUserDto: RegisterUserDto): Promise<UserEntity>;
 }

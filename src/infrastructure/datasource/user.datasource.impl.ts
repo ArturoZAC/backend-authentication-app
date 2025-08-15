@@ -1,16 +1,39 @@
-import { BcryptAdapter } from "../../config/adapters";
+import { BcryptAdapter, JwtAdapter } from "../../config/adapters";
 import { prisma } from "../../data/postgres.data";
-import { CreateUserDto, CustomError, LoginUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
+import { CreateUserDto, CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
 
 export class UserDatasourceImpl implements UserDatasource {
+  
+  public async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
 
-  public async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const existUser = await prisma.user.findUnique({ where: { email: registerUserDto.email }})
+    if( existUser ) throw CustomError.badRequest('Email already exist');
+
+    const user = await prisma.user.create({ data: {
+    ...registerUserDto,
+    password: BcryptAdapter.hash( registerUserDto.password )
+    } })
+
+    if (!user) throw CustomError.internalServer("User could not be created");
+
+    return UserEntity.fromObject(user);
+    
+  }
+
+  public async login(loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}> {
     const hasAccount = await prisma.user.findUnique({ where: { email: loginUserDto.email }});
     if ( !hasAccount ) throw CustomError.notFound('User not exist');
+    if ( !hasAccount.emailValidated ) throw CustomError.unAuthorized('Email not verify');
 
     const isMatch = BcryptAdapter.compare( loginUserDto.password, hasAccount.password);
     if ( isMatch ){
-      return UserEntity.fromObject( hasAccount );
+
+      const token = await JwtAdapter.signJWT({ id: hasAccount.id }) as string;
+
+      return {
+        user: UserEntity.fromObject( hasAccount ),
+        token: token,
+      } 
     }
 
     throw CustomError.badRequest('Password incorrect');
@@ -61,7 +84,7 @@ export class UserDatasourceImpl implements UserDatasource {
     await this.findById(id);
 
     const userDeleted = await prisma.user.delete({ where: { id }})
-    console.log({userDeleted});
+    // console.log({userDeleted});
 
     return UserEntity.fromObject(userDeleted);
   }

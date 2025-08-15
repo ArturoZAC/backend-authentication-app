@@ -1,12 +1,15 @@
-import { CreateUserDto, LoginUserDto, UpdateUserDto, UserDatasource, UserEntity, UserRepository } from "../../domain";
+import { CreateUserDto, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity, UserRepository } from "../../domain";
 
 export class UserRepositoryImpl implements UserRepository{
 
   public constructor(
     private readonly datasource: UserDatasource
   ){}
-
-  public login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+  
+  public register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
+    return this.datasource.register(registerUserDto);
+  }
+  public login(loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}> {
     return this.datasource.login(loginUserDto);
   }
   public create(createUserDto: CreateUserDto): Promise<UserEntity> {

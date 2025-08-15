@@ -17,6 +17,8 @@ export class LoginUserDto {
   public static login = ( object: z.infer< typeof this.schema> ) => {
     const result = this.schema.safeParse(object);
 
+    // console.log({result});
+
     if( !result.success ){
       return [ result.error.issues[0]?.message , undefined] as const;
     }
