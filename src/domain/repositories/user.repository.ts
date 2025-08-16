@@ -12,4 +12,5 @@ export abstract class UserRepository {
   //Auth
   abstract login( loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}>;
   abstract register( registerUserDto: RegisterUserDto): Promise<UserEntity>;
+  abstract changeVerify( userId: string ):Promise<void>;
 }

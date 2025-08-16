@@ -5,6 +5,10 @@ export class UserRepositoryImpl implements UserRepository{
   public constructor(
     private readonly datasource: UserDatasource
   ){}
+
+  public changeVerify(userId: string): Promise<void> {
+    return this.datasource.verifyEmail(userId);
+  }
   
   public register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
     return this.datasource.register(registerUserDto);

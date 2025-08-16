@@ -4,6 +4,13 @@ import { CreateUserDto, CustomError, LoginUserDto, RegisterUserDto, UpdateUserDt
 
 export class UserDatasourceImpl implements UserDatasource {
   
+  public async verifyEmail(userId: string): Promise<void> {
+    const userExist = await prisma.user.findUnique({ where: { id: userId}});
+    if( !userExist ) throw CustomError.notFound(`User with id: ${userId} is not found`)
+    
+    await prisma.user.update({ where: { id: userExist.id}, data: { emailValidated: true }})
+  }
+  
   public async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
 
     const existUser = await prisma.user.findUnique({ where: { email: registerUserDto.email }})

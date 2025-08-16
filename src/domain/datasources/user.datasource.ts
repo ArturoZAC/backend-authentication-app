@@ -12,5 +12,6 @@ export abstract class UserDatasource {
   //Auth
   abstract login( loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}>;
   abstract register( registerUserDto: RegisterUserDto): Promise<UserEntity>;
+  abstract verifyEmail(userId: string): Promise<void>
   
 }

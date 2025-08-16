@@ -10,7 +10,7 @@ export class CodeRepositoryImpl implements CodeRepository {
   public create(userId: string, code: string): Promise<any> {
     return this.codeDatasource.create( userId, code);
   }
-  public findByCode(code: string): Promise<any> {
+  public findByCode(code: string): Promise<string> {
     return this.codeDatasource.findByCode(code);
   }
 

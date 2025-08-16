@@ -3,6 +3,7 @@ import { UserRepository } from '../../domain/repositories/user.repository';
 import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
 import { EmailRepository } from '../../domain/repositories/email.repository';
 import { CodeRepository } from '../../domain/repositories/code.repository';
+import { VerifyEmail } from '../../domain/use-cases/auth/verifyEmail';
 
 export class AuthController {
 
@@ -39,6 +40,15 @@ export class AuthController {
       .execute( registerUserDto!, frontBaseUrl ) 
       .then( user => res.status(201).json(user))
       .catch( error => this.handleError(error,res))
+  }
+
+  public verifyEmail = ( req: Request, res: Response ) => {
+    const { code } = req.params;
+    
+    new VerifyEmail( this.codeRepository, this.userRepository )
+      .execute( code! )
+      .then( status => res.status(200).json(status))
+      .catch( error => this.handleError(error, res))
   }
 
 }
