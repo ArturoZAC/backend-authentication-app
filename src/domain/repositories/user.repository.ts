@@ -9,7 +9,7 @@ export abstract class UserRepository {
   abstract updateById( updateUserDto: UpdateUserDto ): Promise<UserEntity>;
   abstract deleteById( id: string ): Promise<UserEntity>;
 
-  //auth
+  //Auth
   abstract login( loginUserDto: LoginUserDto): Promise<{ user: UserEntity, token: string}>;
   abstract register( registerUserDto: RegisterUserDto): Promise<UserEntity>;
 }

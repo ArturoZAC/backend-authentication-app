@@ -33,16 +33,6 @@ export class UsersController {
       .catch( error => this.handleError(error, res));
   }
 
-  // public loginUser = (req: Request, res: Response ) => {
-  //   const [ error, loginUserDto ] = LoginUserDto.logged(req.body);
-  //   if( error ) return res.status(400).json({error});
-
-  //   new LoginUser( this.userRepository )
-  //     .execute(loginUserDto!)
-  //     .then( userLogged => res.status(200).json(userLogged))
-  //     .catch( error => this.handleError(error, res));
-  // }
-
   public getOneUser = ( req: Request, res: Response ) => {
     const { id } = req.params;
     new GetOneUser( this.userRepository)

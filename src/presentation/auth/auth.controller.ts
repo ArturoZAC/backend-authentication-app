@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
+import { EmailRepository } from '../../domain/repositories/email.repository';
 
 export class AuthController {
 
   constructor(
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly emailRepository: EmailRepository,
   ){}
 
   private handleError = ( error: unknown, res: Response ) => {
@@ -30,7 +32,7 @@ export class AuthController {
     const [error, registerUserDto] = RegisterUserDto.created( req.body );
     if ( error ) return res.status(400).json({error});
 
-    new RegisterUser(this.userRepository)
+    new RegisterUser(this.userRepository, this.emailRepository)
       .execute( registerUserDto!) 
       .then( user => res.status(201).json(user))
       .catch( error => this.handleError(error,res))
