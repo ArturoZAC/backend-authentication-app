@@ -15,6 +15,7 @@ export class VerifyEmail implements VerifyEmailUseCase {
   public async execute (code: string): Promise<any> {
     const userId = await this.codeRepository.findByCode(code);
     await this.userRepository.changeVerify(userId);
+    await this.codeRepository.deleteCode(code);
 
     return {
       status: "Verified Email"

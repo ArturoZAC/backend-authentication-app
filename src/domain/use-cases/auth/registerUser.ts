@@ -37,7 +37,7 @@ export class RegisterUser implements RegisterUserUseCase {
           </div>
         </div>
       `
-    })
+    });
 
     return user;
   }

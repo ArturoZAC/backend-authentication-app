@@ -3,12 +3,19 @@ import { prisma } from "../../data/postgres.data";
 import { CreateUserDto, CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
 
 export class UserDatasourceImpl implements UserDatasource {
+
+  public async verifyPasswordEmail(email: string): Promise<UserEntity> {
+    const existUser = await prisma.user.findUnique({ where: { email }})
+    if( !existUser ) throw CustomError.badRequest('Email not exist');
+
+    return existUser;
+  }
   
   public async verifyEmail(userId: string): Promise<void> {
     const userExist = await prisma.user.findUnique({ where: { id: userId}});
     if( !userExist ) throw CustomError.notFound(`User with id: ${userId} is not found`)
     
-    await prisma.user.update({ where: { id: userExist.id}, data: { emailValidated: true }})
+    await prisma.user.update({ where: { id: userExist.id}, data: { emailValidated: true }});
   }
   
   public async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {

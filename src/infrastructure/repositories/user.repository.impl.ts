@@ -5,6 +5,9 @@ export class UserRepositoryImpl implements UserRepository{
   public constructor(
     private readonly datasource: UserDatasource
   ){}
+  public verifyPasswordEmail(email: string): Promise<UserEntity> {
+    return this.datasource.verifyPasswordEmail(email);
+  }
 
   public changeVerify(userId: string): Promise<void> {
     return this.datasource.verifyEmail(userId);

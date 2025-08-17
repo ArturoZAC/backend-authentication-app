@@ -4,6 +4,8 @@ import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } f
 import { EmailRepository } from '../../domain/repositories/email.repository';
 import { CodeRepository } from '../../domain/repositories/code.repository';
 import { VerifyEmail } from '../../domain/use-cases/auth/verifyEmail';
+import { ResetPasswordWithEmailUserDto } from '../../domain/dtos/auth/ResetPasswordWithEmail.dto';
+import { ResetPasswordWithEmail } from '../../domain/use-cases/auth/resetPasswordWithEmail';
 
 export class AuthController {
 
@@ -48,6 +50,17 @@ export class AuthController {
     new VerifyEmail( this.codeRepository, this.userRepository )
       .execute( code! )
       .then( status => res.status(200).json(status))
+      .catch( error => this.handleError(error, res))
+  }
+
+  public resetPasswordWithEmail = (req: Request, res: Response) => {
+    const { frontBaseUrl } = req.body;
+    const [error, resetPasswordWithEmailUserDto] = ResetPasswordWithEmailUserDto.reset( req.body );
+    if ( error ) return res.status(400).json({error});
+
+    new ResetPasswordWithEmail( this.userRepository, this.codeRepository, this.emailRepository)
+      .execute(resetPasswordWithEmailUserDto!, frontBaseUrl)
+      .then( status => res.status(200).json(status) )
       .catch( error => this.handleError(error, res))
   }
 

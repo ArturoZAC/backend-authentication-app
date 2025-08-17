@@ -7,6 +7,10 @@ export class CodeRepositoryImpl implements CodeRepository {
     private readonly codeDatasource: CodeDatasource
   ){}
 
+  public deleteCode(code: string): Promise<void> {
+    return this.codeDatasource.deleteCode(code);
+  }
+
   public create(userId: string, code: string): Promise<any> {
     return this.codeDatasource.create( userId, code);
   }

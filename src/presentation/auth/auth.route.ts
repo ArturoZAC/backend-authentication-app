@@ -22,6 +22,8 @@ export class AuthRoutes {
     router.post('/login', authController.login);
     router.post('/register', authController.register);
     router.get('/verify/:code', authController.verifyEmail);
+    router.post('/reset_password/email', authController.resetPasswordWithEmail);
+    // router.get('/reset_password/:code', authController.resetPassword);
 
     return router;
   }
