@@ -13,17 +13,17 @@ export class AuthRoutes {
 
     const emailDatasource = new EmailDatasourceImpl();
     const emailRepository = new EmailRepositoryImpl(emailDatasource);
-    const codeDatasource = new CodeDatasourceImpl();
-    const codeRepository = new CodeRepositoryImpl(codeDatasource);
-    const userDatasource = new UserDatasourceImpl();
-    const userRepository = new UserRepositoryImpl(userDatasource);
-    const authController = new AuthController(userRepository, emailRepository, codeRepository);
+    const codeDatasource  = new CodeDatasourceImpl();
+    const codeRepository  = new CodeRepositoryImpl(codeDatasource);
+    const userDatasource  = new UserDatasourceImpl();
+    const userRepository  = new UserRepositoryImpl(userDatasource);
+    const authController  = new AuthController(userRepository, emailRepository, codeRepository);
 
     router.post('/login', authController.login);
     router.post('/register', authController.register);
     router.get('/verify/:code', authController.verifyEmail);
     router.post('/reset_password/email', authController.resetPasswordWithEmail);
-    // router.get('/reset_password/:code', authController.resetPassword);
+    router.post('/reset_password/:code', authController.resetPassword);
 
     return router;
   }

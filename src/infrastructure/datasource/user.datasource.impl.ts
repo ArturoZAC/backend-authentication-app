@@ -1,8 +1,16 @@
 import { BcryptAdapter, JwtAdapter } from "../../config/adapters";
 import { prisma } from "../../data/postgres.data";
-import { CreateUserDto, CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
+import { CreateUserDto, CustomError, LoginUserDto, RegisterUserDto, ResetPasswordUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
 
 export class UserDatasourceImpl implements UserDatasource {
+
+  public async resetPassword(userId: string, resetPasswordUserDto: ResetPasswordUserDto): Promise<void> {
+    await this.findById( userId );
+
+    const newPasswordWithBcrypt = BcryptAdapter.hash( resetPasswordUserDto.newPassword );
+    
+    await prisma.user.update({ where: { id: userId}, data: { password: newPasswordWithBcrypt }});
+  }
 
   public async verifyPasswordEmail(email: string): Promise<UserEntity> {
     const existUser = await prisma.user.findUnique({ where: { email }})

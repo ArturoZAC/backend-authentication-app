@@ -1,4 +1,4 @@
-import { CreateUserDto, LoginUserDto, RegisterUserDto, UpdateUserDto } from "../dtos";
+import { CreateUserDto, LoginUserDto, RegisterUserDto, ResetPasswordUserDto, UpdateUserDto } from "../dtos";
 import { UserEntity } from "../entities/user.entity";
 
 export abstract class UserDatasource {
@@ -14,5 +14,6 @@ export abstract class UserDatasource {
   abstract register( registerUserDto: RegisterUserDto): Promise<UserEntity>;
   abstract verifyEmail(userId: string): Promise<void>
   abstract verifyPasswordEmail( email: string ): Promise<UserEntity>;
+  abstract resetPassword( userId: string, resetPasswordUserDto: ResetPasswordUserDto): Promise<void>;
   
 }

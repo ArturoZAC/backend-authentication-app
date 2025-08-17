@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../../domain/repositories/user.repository';
-import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
+import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto, ResetPasswordUserDto, ResetPasswordWithEmailUserDto } from '../../domain';
 import { EmailRepository } from '../../domain/repositories/email.repository';
 import { CodeRepository } from '../../domain/repositories/code.repository';
 import { VerifyEmail } from '../../domain/use-cases/auth/verifyEmail';
-import { ResetPasswordWithEmailUserDto } from '../../domain/dtos/auth/ResetPasswordWithEmail.dto';
 import { ResetPasswordWithEmail } from '../../domain/use-cases/auth/resetPasswordWithEmail';
+import { ResetPassword } from '../../domain/use-cases/auth/resetPassword';
 
 export class AuthController {
 
@@ -62,6 +62,19 @@ export class AuthController {
       .execute(resetPasswordWithEmailUserDto!, frontBaseUrl)
       .then( status => res.status(200).json(status) )
       .catch( error => this.handleError(error, res))
+  }
+
+  public resetPassword = (req: Request, res: Response) => {
+    const { code } = req.params;
+    // console.log({code});
+
+    const [ error, resetPasswordUserDto] = ResetPasswordUserDto.reset(req.body);
+    if ( error ) return res.status(400).json({error});
+
+    new ResetPassword( this.userRepository, this.codeRepository  )
+      .execute( code!, resetPasswordUserDto! )
+      .then( status => res.status(200).json(status))
+      .catch( error => this.handleError(error,res))
   }
 
 }

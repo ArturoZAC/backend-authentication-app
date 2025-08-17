@@ -1,10 +1,10 @@
-import { ResetPasswordWithEmailUserDto } from '../../dtos/auth/ResetPasswordWithEmail.dto';
+import { ResetPasswordWithEmailUserDto } from '../../dtos';
 import { CodeRepository } from '../../repositories/code.repository';
 import { EmailRepository } from '../../repositories/email.repository';
 import { UserRepository } from '../../repositories/user.repository';
 
 export interface ResetPasswordWithEmailUseCase{
-  execute ( resetPasswordWithEmailUserDto: ResetPasswordWithEmailUserDto, frontBaseUrl: string): void;
+  execute ( resetPasswordWithEmailUserDto: ResetPasswordWithEmailUserDto, frontBaseUrl: string): Promise<any>;
 }
 
 export class ResetPasswordWithEmail implements ResetPasswordWithEmailUseCase{
