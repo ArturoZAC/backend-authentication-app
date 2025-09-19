@@ -22,16 +22,14 @@ export class AuthMiddleware {
       const payload = await JwtAdapter.verifyJWT<{ id: string }>(token);
       if (!payload) return res.status(401).json({ error: "Invalid token" });
 
-      // console.log({payload});
-
       const user = await this.userRepository.findById(payload.id);
-      // console.log({user});
+
       const { password, ...restProperties } = user;
 
-      (req as any).body.userId = restProperties.id;
-
+      (req as any).userId = restProperties!.id;
       next();
     } catch (error) {
+      // console.error("AuthMiddleware error:", error);
       return res.status(500).json({ error: "Internal Server Error" });
     }
   };

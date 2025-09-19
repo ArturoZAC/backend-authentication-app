@@ -1,7 +1,6 @@
-import { UserProperties } from '../entities';
+import { UserProperties } from "../entities";
 
 export class UserEntity {
-
   public readonly id: string;
   public name: string;
   public email: string;
@@ -9,7 +8,14 @@ export class UserEntity {
   public password: string;
   public createdAt: Date;
 
-  constructor({ id, name, email, emailValidated, password, createdAt }: UserProperties) {
+  constructor({
+    id,
+    name,
+    email,
+    emailValidated,
+    password,
+    createdAt,
+  }: UserProperties) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -21,5 +27,4 @@ export class UserEntity {
   public static fromObject(props: UserProperties): UserEntity {
     return new UserEntity(props);
   }
-
 }
