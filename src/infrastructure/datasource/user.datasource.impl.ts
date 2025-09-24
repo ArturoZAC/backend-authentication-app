@@ -12,11 +12,16 @@ import {
 } from "../../domain";
 
 export class UserDatasourceImpl implements UserDatasource {
-  public async renewToken(userId: string): Promise<{ token: string }> {
+  public async renewToken(
+    userId: string
+  ): Promise<{ token: string; user: Omit<UserEntity, "password"> }> {
     const token = (await JwtAdapter.signJWT({ userId })) as string;
+
+    const { password, ...restData } = await this.findById(userId);
 
     return {
       token: token,
+      user: restData,
     };
   }
 
