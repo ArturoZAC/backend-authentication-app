@@ -20,6 +20,7 @@ export class ResetPassword implements ResetPasswordUseCase {
     resetPasswordUserDto: ResetPasswordUserDto
   ): Promise<any> {
     const userId = await this.codeRepository.findByCode(code);
+    // console.log({ code, userId });
 
     await this.userRepository.resetPassword(userId, resetPasswordUserDto);
     await this.codeRepository.deleteCode(code);
