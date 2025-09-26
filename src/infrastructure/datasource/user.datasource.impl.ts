@@ -15,13 +15,17 @@ export class UserDatasourceImpl implements UserDatasource {
   public async renewToken(
     userId: string
   ): Promise<{ token: string; user: Omit<UserEntity, "password"> }> {
-    const token = (await JwtAdapter.signJWT({ userId })) as string;
+    const token = (await JwtAdapter.signJWT({ userId: userId })) as string;
+
+    console.log({ token });
 
     const { password, ...restData } = await this.findById(userId);
 
+    // console.log({ restData });
+
     return {
-      token: token,
       user: restData,
+      token: token,
     };
   }
 
@@ -92,7 +96,9 @@ export class UserDatasourceImpl implements UserDatasource {
       hasAccount.password
     );
     if (isMatch) {
-      const token = (await JwtAdapter.signJWT({ id: hasAccount.id })) as string;
+      const token = (await JwtAdapter.signJWT({
+        userId: hasAccount.id,
+      })) as string;
 
       return {
         user: UserEntity.fromObject(hasAccount),

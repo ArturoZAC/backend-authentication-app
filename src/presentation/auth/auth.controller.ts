@@ -97,6 +97,8 @@ export class AuthController {
   public renewToken = (req: Request, res: Response) => {
     const userId = (req as any).userId;
 
+    console.log({ userId });
+
     new RenewToken(this.userRepository)
       .execute(userId)
       .then((token) => res.status(200).json(token))

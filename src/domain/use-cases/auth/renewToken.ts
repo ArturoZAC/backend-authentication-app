@@ -8,7 +8,7 @@ export class RenewToken implements RenewTokenUseCase {
   public constructor(private readonly userRepository: UserRepository) {}
 
   public execute = async (id: string): Promise<{ token: string }> => {
-    const user = await this.userRepository.findById(id);
+    await this.userRepository.findById(id);
 
     // console.log({ user });
 
