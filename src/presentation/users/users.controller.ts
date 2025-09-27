@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from "../../domain/dtos";
+import { CreateUserDto, UpdateUserDto } from "../../domain/dtos";
 import {
   CreateUser,
   CustomError,
   DeleteOneUser,
   GetAllUsers,
   GetOneUser,
-  LoginUser,
   UpdateUser,
   UserRepository,
 } from "../../domain";

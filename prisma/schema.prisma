@@ -15,7 +15,7 @@ model user {
   emailValidated    Boolean  @default(false)
   password          String
   createdAt         DateTime @default(now())
-  codesVerification codeVerification[]
+  codesVerification codeVerification?
 }
 
 model codeVerification {
