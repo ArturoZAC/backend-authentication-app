@@ -15,8 +15,8 @@ async function main() {
 (async () => {
   try {
     await main();
-  } catch {
-    console.error("❌ Error ejecutando la seed");
+  } catch (err) {
+    console.error("❌ Error ejecutando la seed", err);
   } finally {
     await prisma.$disconnect();
   }

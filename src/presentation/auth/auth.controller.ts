@@ -33,6 +33,7 @@ export class AuthController {
 
   public login = (req: Request, res: Response) => {
     const [error, loginUserDto] = LoginUserDto.login(req.body);
+    // console.log({ loginUserDto });
     if (error) return res.status(400).json({ error });
 
     new LoginUser(this.userRepository)
@@ -43,8 +44,12 @@ export class AuthController {
 
   public register = (req: Request, res: Response) => {
     const { frontBaseUrl } = req.body;
+
+    // console.log(req.body);
     const [error, registerUserDto] = RegisterUserDto.created(req.body);
     if (error) return res.status(400).json({ error });
+
+    // console.log({ registerUserDto });
 
     new RegisterUser(
       this.userRepository,

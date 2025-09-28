@@ -13,11 +13,15 @@
    ```bash
    npm install
    ```
-4. Correr la semilla de datos:
+4. Aplicar las migraciones de Prisma:
+   ```bash
+   npx prisma migrate dev
+   ```
+5. Correr la semilla de datos:
    ```bash
    npm run seed
    ```
-5. Levantar el backend en modo desarrollo:
+6. Levantar el backend en modo desarrollo:
    ```bash
    npm run start:dev
    ```

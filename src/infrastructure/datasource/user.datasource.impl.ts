@@ -17,7 +17,7 @@ export class UserDatasourceImpl implements UserDatasource {
   ): Promise<{ token: string; user: Omit<UserEntity, "password"> }> {
     const token = (await JwtAdapter.signJWT({ userId: userId })) as string;
 
-    console.log({ token });
+    // console.log({ token });
 
     const { password, ...restData } = await this.findById(userId);
 
@@ -87,6 +87,7 @@ export class UserDatasourceImpl implements UserDatasource {
     const hasAccount = await prisma.user.findUnique({
       where: { email: loginUserDto.email },
     });
+
     if (!hasAccount) throw CustomError.notFound("User not exist");
     if (!hasAccount.emailValidated)
       throw CustomError.unAuthorized("Email not verify");
@@ -127,7 +128,7 @@ export class UserDatasourceImpl implements UserDatasource {
   }
 
   public async getAll(): Promise<UserEntity[]> {
-    const users = await prisma.user.findMany();
+    const users: UserEntity[] = await prisma.user.findMany();
     if (!users) throw CustomError.notFound("Users do not exist");
 
     return users.map((user) => UserEntity.fromObject(user));
