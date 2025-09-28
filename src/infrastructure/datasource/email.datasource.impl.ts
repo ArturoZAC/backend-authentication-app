@@ -6,13 +6,16 @@ import { envs } from "../../config/envs";
 
 export class EmailDatasourceImpl implements EmailDatasource {
   private transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    // host: "smtp.gmail.com",
+    // port: 587,
+    // secure: false,
     service: envs.MAILER_SERVICE,
     auth: {
       user: envs.MAILER_EMAIL,
       pass: envs.MAILER_SECRET_KEY,
+    },
+    tls: {
+      rejectUnauthorized: false,
     },
   });
 
