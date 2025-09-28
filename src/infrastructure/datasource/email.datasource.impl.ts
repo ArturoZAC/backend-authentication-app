@@ -6,7 +6,9 @@ import { envs } from "../../config/envs";
 
 export class EmailDatasourceImpl implements EmailDatasource {
   private transporter = nodemailer.createTransport({
-    service: envs.MAILER_SERVICE,
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: envs.MAILER_EMAIL,
       pass: envs.MAILER_SECRET_KEY,
@@ -18,14 +20,17 @@ export class EmailDatasourceImpl implements EmailDatasource {
 
     try {
       await this.transporter.sendMail({
+        from: "Mi app 4z4c",
         to,
         subject,
         html: htmlBody,
         attachments,
       });
 
+      console.log("✅ Email enviado correctamente a", to);
       return true;
-    } catch {
+    } catch (error) {
+      console.error("❌ Error enviando email:", error);
       return false;
     }
   }

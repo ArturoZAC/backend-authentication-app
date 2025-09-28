@@ -44,14 +44,13 @@ export class RegisterUser implements RegisterUserUseCase {
     //   `,
     // });
 
-    // Enviar correo en "background"
-    this.emailRepository
+    await this.emailRepository
       .sendEmail({
         to: user.email,
         subject: "Bienvenido",
         htmlBody: `<a href="${frontBaseUrl}/auth/verify-email/${code}">¡Verificar cuenta!</a>`,
       })
-      .catch(console.error); // loguea errores pero no bloquea
+      .catch(console.error);
 
     return user;
   };
