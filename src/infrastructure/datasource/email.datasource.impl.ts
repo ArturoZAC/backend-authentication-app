@@ -17,7 +17,10 @@ export class EmailDatasourceImpl implements EmailDatasource {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          sender: { name: "Mi app 4z4c", email: envs.MAILER_EMAIL },
+          sender: {
+            name: "Authentication - App by 4Z4C",
+            email: envs.MAILER_EMAIL,
+          },
           to: [{ email: to }],
           subject,
           htmlContent: htmlBody,
