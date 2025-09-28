@@ -27,30 +27,30 @@ export class RegisterUser implements RegisterUserUseCase {
 
     await this.codeRepository.create(user.id, code);
 
-    // await this.emailRepository.sendEmail({
-    //   to: user.email,
-    //   subject: "Bienvenido",
-    //   htmlBody: `
-    //     <div style="max-width: 500px; margin: 50px auto; background-color: #f8fafc; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; color: #333333;">
+    await this.emailRepository.sendEmail({
+      to: user.email,
+      subject: "Bienvenido",
+      htmlBody: `
+        <div style="max-width: 500px; margin: 50px auto; background-color: #f8fafc; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; color: #333333;">
 
-    //       <h1 style="color: #000000ff; font-size: 28px; text-align: center; margin-bottom: 20px;">¡Hola ${user.name.toUpperCase()} 😊📧!</h1>
+          <h1 style="color: #000000ff; font-size: 28px; text-align: center; margin-bottom: 20px;">¡Hola ${user.name.toUpperCase()} 😊📧!</h1>
 
-    //       <p style="font-size: 18px; line-height: 1.6; margin-bottom: 25px; text-align: center;">Gracias por registrarte en nuestra aplicación. Para verificar su cuenta, haga clic en el siguiente enlace:</p>
+          <p style="font-size: 18px; line-height: 1.6; margin-bottom: 25px; text-align: center;">Gracias por registrarte en nuestra aplicación. Para verificar su cuenta, haga clic en el siguiente enlace:</p>
 
-    //       <div style="text-align: center;">
-    //           <a href="${frontBaseUrl}/auth/verify-email/${code}" style="display: inline-block; background-color: #000000ff; color: #ffffff; text-align: center; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 18px;">¡Verificar cuenta!</a>
-    //       </div>
-    //     </div>
-    //   `,
-    // });
+          <div style="text-align: center;">
+              <a href="${frontBaseUrl}/auth/verify-email/${code}" style="display: inline-block; background-color: #000000ff; color: #ffffff; text-align: center; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 18px;">¡Verificar cuenta!</a>
+          </div>
+        </div>
+      `,
+    });
 
-    await this.emailRepository
-      .sendEmail({
-        to: user.email,
-        subject: "Bienvenido",
-        htmlBody: `<a href="${frontBaseUrl}/auth/verify-email/${code}">¡Verificar cuenta!</a>`,
-      })
-      .catch(console.error);
+    // await this.emailRepository
+    //   .sendEmail({
+    //     to: user.email,
+    //     subject: "Bienvenido",
+    //     htmlBody: `<a href="${frontBaseUrl}/auth/verify-email/${code}">¡Verificar cuenta!</a>`,
+    //   })
+    //   .catch(console.error);
 
     return user;
   };
